@@ -25,6 +25,6 @@ To this end, the following changes were made to the default Experiment Factory S
 - A figure was added to the instructions to illustrate a suggested finger placement on the keyboard
 
 ## Changes for Brevity
-- In this version, when a response is entered, the trial ends and feedback is displayed right away (Previously, trials had a fixed duration)
+- In this version, when a response is entered the trial ends and feedback is displayed right away (Previously, trials had a fixed duration)
 - The number of practice trials was reduced from 24 to 18
 - The number of test trials was reduced from 96 to 72
