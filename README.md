@@ -8,16 +8,23 @@ Hi Friend! This is an Experiment that is friendly for use in the [Experiment Fac
 
 # The 5-Minute Stroop
 
-This is a derivative of the default Experiment Factory Stroop task, which was designed to provide a reliable and (statistically) powerful way to capture the Stroop phenomenon in a short amount of time. This task was designed with the following considerations in mind:
+The 5-minute Stroop is designed to provide a reliable and (statistically) powerful way to capture the Stroop phenomenon in a short amount of time. 
+
+Brief versions of cognitive tasks may be useful in cases where researchers are concerned about: (1) participant fatigue or attrition, (2) the costs of doing research and paying participants (for example, on MTurk participants are paid commensurate with the time they spend engaged with the research, and so there is an incentive to minimize the demands placed on their time), or (3) where there simply isn't a need for a longer task (in which case, a shorter task is more respectful of participants' time).
+
+With that in mind, this task was created with the following design considerations:
 
 - The task should generate the Stroop phenomenon (slower response times for incongruent vs. congruent stimuli) with a medium-to-large effect size
 - The task should be user-friendly, accessible, and provide a user experience that is not unpleasant
 - The task should take approximately 5 minutes to complete
 
-To this end, the following changes were made to the default Experiment Factory Stroop task:
+To achieve this, the following changes were made to the default Experiment Factory Stroop task:
 
 ## Changes for Statistical Power / Effect
+
 - The ratio of congruent:incongruent trials was increased from 1:1 to 2:1, since proportion congruency has been shown in some past research to increase the size of the Stroop effect
+- Attention checks were added to the test phase, allowing researchers to more clearly identify "bad subjects"
+
 
 ## Changes for Accessibility and User-Friendliness
 - Colors were selected to maximize accessibility for individuals with color-blindness (Accessibility of colors was confirmed using a color-blindness simulator, Color Oracle [http://colororacle.org])
