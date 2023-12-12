@@ -1,12 +1,13 @@
-<!DOCTYPE html><html class=''>
+<!DOCTYPE html>
+<html class=''>
 <head>
     <meta charset='UTF-8'>
     <meta name="robots" content="noindex">
     <title>The Experiment Factory stroop</title>
-    
-<link rel='stylesheet' type='text/css' href='jspsych.css'>
-<link rel='stylesheet' type='text/css' href='default_style.css'>
-<link rel='stylesheet' type='text/css' href='style.css'>
+
+    <link rel='stylesheet' type='text/css' href='jspsych.css'>
+    <link rel='stylesheet' type='text/css' href='default_style.css'>
+    <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 
 <body>
@@ -32,50 +33,54 @@
 <img src="recommended_finger_placement.svg" alt="Recommended finger placement diagram" style="display:none">
 
 <script>
-$( document ).ready(function() {
+    $(document).ready(function () {
 
-    jsPsych.init({
-             timeline: stroop_experiment,
-             display_element: "getDisplayElement",
-             fullscreen: true,
-             on_trial_finish: function(data){
-               addID('stroop')
-             },
+        jsPsych.init({
+            timeline: stroop_experiment,
+            display_element: "getDisplayElement",
+            fullscreen: true,
+            on_trial_finish: function (data) {
+                addID('stroop')
+            },
 
-             on_finish: function(data){
+            on_finish: function (data) {
+                const prolificID = jsPsych.data.getURLVariable('PROLIFIC_PID');
+                const redirectURL = `https://hujipsych.au1.qualtrics.com/jfe/form/SV_8IhCeapbyuTnzo2/?PROLIFIC_PID=${prolificID}`;
 
-                 // Serialize the data
-                 var promise = new Promise(function(resolve, reject) {
-                     var data = jsPsych.data.dataAsJSON();
-                     resolve(data);
-                 })
+                // Serialize the data
+                var promise = new Promise(function (resolve, reject) {
+                    var data = jsPsych.data.dataAsJSON();
+                    resolve(data);
+                })
 
-                 promise.then(function(data) {
+                promise.then(function (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: 'https://hss74dd1ed.execute-api.us-east-1.amazonaws.com/',
+                        data:
+                            `{"subject_id":"${prolificID}", "bucket":"cfg-stroop-experiment-2023","exp_data":${data}}`,
+                        crossDomain: true,
+                        contentType: 'application/json',
+                        dataType: "json",
+                        success: function () {
+                            window.location.replace(redirectURL);
+                        },
 
+                        // Endpoint not running, local save
+                        error: function (err) {
+                            if (err.status !== 200) {  // err.status 200 means "OK"
+                                alert("An error occurred while saving data to server. Data will be saved on your computer. Please contact us at comdepri@mail.huji.ac.il")
+                                jsPsych.data.localSave(`stroop_${prolificID}.csv`, 'csv');
+                            }
+                            window.location.replace(redirectURL);
+                        }
+                    });
+                })
 
-                     $.ajax({
-                         type: "POST",
-                         url: '/save',
-                         data: { "data": data },
-                         success: function(){ document.location = "/next" },
-                         dataType: "application/json",
+            }
 
-                         // Endpoint not running, local save
-                         error: function(err) {
-
-                             if (err.status == 200){
-                                 document.location = "/next";
-                             } else {
-                                 // If error, assue local save
-                                 jsPsych.data.localSave('stroop_results.csv', 'csv');
-                             }
-                         }
-                     });
-                 })
-             }
-
-      });
-});
+        });
+    });
 </script>
 </body>
 </html>
