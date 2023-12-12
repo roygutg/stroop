@@ -246,10 +246,10 @@ var instructions_block = {
         trial_id: "instruction"
     },
     pages: [
-        '<div class = centerbox style="height:80vh"><p class = block-text>In this game you will see "color" words' +
-		' (RED, BLUE, GREEN, YELLOW) appear one at a time. The font of the words also will be colored. For example,' +
-		' you may see: <span class = "large" style = "color:#f64747;font-weight:bold">RED</span>, <span class = "large" style = "color:#00bfff;font-weight:bold">BLUE</span> or <span class = "large" style = "color:#f64747;font-weight:bold">BLUE</span>.</p><p class = block-text>Your task is to press the button corresponding to the <strong><u>font color</u></strong> of the word. Respond as <u><strong>quickly and accurately</strong></u> as possible. The response keys are as follows:</p>' +
-        response_keys + '</div>'
+        `<div class = centerbox style="height:80vh"><p class = block-text>In this game you will see color names
+		(RED, BLUE, YELLOW) appear one at a time. The font of the words also will be colored. For example,
+		you may see: <span class = "large" style = "color:#f64747;font-weight:bold">RED</span>, <span class = "large" style = "color:#00bfff;font-weight:bold">BLUE</span> or <span class = "large" style = "color:#f64747;font-weight:bold">BLUE</span>.</p><p class = block-text>Your task is to press the button corresponding to the <strong><u>font color</u></strong> of the word. Respond as <u><strong>quickly and accurately</strong></u> as possible. The response keys are as follows:</p>
+        ${response_keys}</div>`
     ],
     allow_keys: false,
     show_clickable_nav: true,
@@ -280,7 +280,7 @@ var instruction_node = {
         }
         if (sumInstructTime <= instructTimeThresh * 1000) {
             feedback_instruct_text =
-                'Read through instructions too quickly.  Please take your time and make sure you understand the instructions.  Press <strong>enter</strong> to continue.'
+                'Read through instructions too quickly. Please take your time and make sure you understand the instructions.  Press <strong>enter</strong> to continue.'
             return true
         } else if (sumInstructTime > instructTimeThresh * 1000) {
             feedback_instruct_text = 'Done with instructions. Press <strong>enter</strong> to continue.'
