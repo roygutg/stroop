@@ -336,7 +336,7 @@ var start_test_block = {
     timing_response: 180000,
     text: `<div class = centerbox><p class = center-block-text>Great job! Now that you've had a bit of practice, you 
             can start the task. Remember to respond as <u><strong>quickly and accurately</strong></u> as you can.</p>
-            <p class = center-block-text>Please keep your attention focused on the task. Attention checks will appear throughout.</p>
+            <p class = center-block-text>Please remain focused on the task. Attention checks will appear throughout.</p>
             <p class = center-block-text>Press <strong>space</strong> to begin.</p></div>`,
     cont_key: [SPACE],
     timing_post_trial: 1000,
