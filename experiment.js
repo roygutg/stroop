@@ -194,9 +194,9 @@ var incongruent_stim = [{
 // High proportion congruency: twice as many congruent as incongruent
 var stims = [].concat(congruent_stim, congruent_stim, congruent_stim, congruent_stim, incongruent_stim)
 var practice_len = 18
-var practice_stims = jsPsych.randomization.repeat(stims, practice_len / 18, true)
+var practice_stims = jsPsych.randomization.repeat(stims, practice_len / stims.length, true)
 var exp_len = 72
-var test_stims = jsPsych.randomization.repeat(stims, exp_len / 18, true)
+var test_stims = jsPsych.randomization.repeat(stims, exp_len / stims.length, true)
 var choices = [66, 82, 89]
 var exp_stage = 'practice'
 
@@ -223,11 +223,17 @@ var attention_node = {
 
 /* define static blocks */
 var response_keys =
-    '<ul class="list-text"><li><span class = "large" style = "color:#f64747;font-weight:bold">WORD</span>: "R key"</li><li><span class = "large" style = "color:#00bfff;font-weight:bold">WORD</span>: "B key"</li><li><span class = "large" style = "color:#F1F227;font-weight:bold">WORD</span>: "Y key"</li></ul>'
+    `<ul class="list-text">
+    <li><span class = "large" style = "color:#f64747;font-weight:bold">WORD</span>: "R" key</li>
+    <li><span class = "large" style = "color:#00bfff;font-weight:bold">WORD</span>: "B" key</li>
+    <li><span class = "large" style = "color:#F1F227;font-weight:bold">WORD</span>: "Y" key</li></ul>`
 
 
 var feedback_instruct_text =
-    '<div class = centerbox><p class = block-text>Let\'s play a color matching game! Focus will be important here, so before we begin please make sure you\'re ready for <u><strong>five minutes</strong></u> of uninterrupted game time!</p> <p class = block-text>Press <strong>enter</strong> to continue.</p></div>'
+    `<div class = centerbox><p class = block-text>
+    Hey there, you will now complete a color matching task. Focus will be important here, so before we begin please
+    make sure you're ready for <u><strong>five minutes</strong></u> of uninterrupted game time!
+    </p><p class = block-text>Press <strong>enter</strong> to continue.</p></div>`
 var feedback_instruct_block = {
     type: 'poldrack-text',
     data: {
@@ -246,9 +252,13 @@ var instructions_block = {
         trial_id: "instruction"
     },
     pages: [
-        `<div class = centerbox style="height:80vh"><p class = block-text>In this game you will see color names
-		(RED, BLUE, YELLOW) appear one at a time. The font of the words also will be colored. For example,
-		you may see: <span class = "large" style = "color:#f64747;font-weight:bold">RED</span>, <span class = "large" style = "color:#00bfff;font-weight:bold">BLUE</span> or <span class = "large" style = "color:#f64747;font-weight:bold">BLUE</span>.</p><p class = block-text>Your task is to press the button corresponding to the <strong><u>font color</u></strong> of the word. Respond as <u><strong>quickly and accurately</strong></u> as possible. The response keys are as follows:</p>
+        `<div class = centerbox style="height:80vh"><p class = block-text>In this task you will see color names
+        (RED, BLUE, YELLOW) appear one at a time. The font of the words also will be colored. For example, you may see: 
+        <span class = "large" style = "color:#f64747;font-weight:bold">RED</span>,
+        <span class = "large" style = "color:#00bfff;font-weight:bold">BLUE</span> or
+        <span class = "large" style = "color:#f64747;font-weight:bold">BLUE</span>.</p>
+        <p class = block-text>Your task is to press the button corresponding to the <strong><u>font color</u></strong> of the word. Respond as <u><strong>quickly and accurately</strong></u> as possible.
+        The response keys are as follows:</p>
         ${response_keys}</div>`
     ],
     allow_keys: false,
@@ -280,7 +290,8 @@ var instruction_node = {
         }
         if (sumInstructTime <= instructTimeThresh * 1000) {
             feedback_instruct_text =
-                'Read through instructions too quickly. Please take your time and make sure you understand the instructions.  Press <strong>enter</strong> to continue.'
+                `Don’t read through instructions too quickly. Please take your time and make sure you understand the 
+                instructions. Press <strong>enter</strong> to continue.`
             return true
         } else if (sumInstructTime > instructTimeThresh * 1000) {
             feedback_instruct_text = 'Done with instructions. Press <strong>enter</strong> to continue.'
@@ -296,7 +307,8 @@ var end_block = {
         exp_id: 'stroop'
     },
     timing_response: 180000,
-    text: '<div class = centerbox><p class = center-block-text>Thanks for playing!</p><p class = center-block-text>Press <strong>enter</strong> to continue.</p></div>',
+    text: `<div class = centerbox><p class = center-block-text>Thanks for completing the task.</p>
+            <p class = center-block-text>Press <strong>enter</strong> to continue.</p></div>`,
     cont_key: [13],
     timing_post_trial: 0,
     on_finish: assessPerformance
@@ -319,7 +331,9 @@ var start_test_block = {
         trial_id: "test_intro"
     },
     timing_response: 180000,
-    text: '<div class = centerbox><p class = center-block-text>Great job! Now that you\'ve had a bit of practice, let\'s play for real this time. Remember to respond as <u><strong>quickly and accurately</strong></u> as you can. </p><p class = center-block-text>Press <strong>enter</strong> to begin the test.</p></div>',
+    text: `<div class = centerbox><p class = center-block-text>Great job! Now that you've had a bit of practice, you 
+            can start the task. Remember to respond as <u><strong>quickly and accurately</strong></u> as you can.</p>
+            <p class = center-block-text>Press <strong>enter</strong> to begin.</p>`,
     cont_key: [13],
     timing_post_trial: 1000,
     on_finish: function () {
@@ -357,8 +371,8 @@ for (i = 0; i < practice_len; i++) {
         data: practice_stims.data[i],
         key_answer: practice_stims.key_answer[i],
         is_html: true,
-        correct_text: '<div class = fb_box><div class = center-text><font size = 20>correct</font></div></div>',
-        incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>WRONG!</font></div></div>',
+        correct_text: '<div class = fb_box><div class = center-text><font size = 20>CORRECT</font></div></div>',
+        incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>WRONG</font></div></div>',
         timeout_message: '<div class = fb_box><div class = center-text><font size = 20>GO FASTER!</font></div></div>',
         choices: choices,
         timing_response: 1500,
