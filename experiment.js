@@ -89,6 +89,7 @@ var attention_check_thresh = 0.45
 var sumInstructTime = 0 //ms
 var instructTimeThresh = 0 ///in seconds
 var credit_var = 0
+const SPACE = 32
 
 /*
 /* High contrast, color-blind safe colors
@@ -233,13 +234,13 @@ var feedback_instruct_text =
     `<div class = centerbox><p class = block-text>
     Hey there, you will now complete a color matching task. Focus will be important here, so before we begin please
     make sure you're ready for <u><strong>five minutes</strong></u> of uninterrupted game time!
-    </p><p class = block-text>Press <strong>enter</strong> to continue.</p></div>`
+    </p><p class = block-text>Press <strong>space</strong> to continue.</p></div>`
 var feedback_instruct_block = {
     type: 'poldrack-text',
     data: {
         trial_id: "instruction"
     },
-    cont_key: [13],
+    cont_key: [SPACE],
     text: getInstructFeedback,
     timing_post_trial: 0,
     timing_response: 180000
@@ -291,10 +292,10 @@ var instruction_node = {
         if (sumInstructTime <= instructTimeThresh * 1000) {
             feedback_instruct_text =
                 `Don’t read through instructions too quickly. Please take your time and make sure you understand the 
-                instructions. Press <strong>enter</strong> to continue.`
+                instructions. Press <strong>space</strong> to continue.`
             return true
         } else if (sumInstructTime > instructTimeThresh * 1000) {
-            feedback_instruct_text = 'Done with instructions. Press <strong>enter</strong> to continue.'
+            feedback_instruct_text = 'Done with instructions. Press <strong>space</strong> to continue.'
             return false
         }
     }
@@ -308,8 +309,8 @@ var end_block = {
     },
     timing_response: 180000,
     text: `<div class = centerbox><p class = center-block-text>Thanks for completing the task.</p>
-            <p class = center-block-text>Press <strong>enter</strong> to continue.</p></div>`,
-    cont_key: [13],
+            <p class = center-block-text>Press <strong>space</strong> to continue.</p></div>`,
+    cont_key: [SPACE],
     timing_post_trial: 0,
     on_finish: assessPerformance
 };
@@ -320,8 +321,10 @@ var start_practice_block = {
         trial_id: "practice_intro"
     },
     timing_response: 180000,
-    text: '<div class = centerbox><p class = block-text>Let\'s start with a few practice trials. Remember, press the key corresponding to the <strong><u>font color</u></strong> of the word. </p><p class = block-text></p><p class = block-text>Press <strong>enter</strong> to begin the practice.</p></div>',
-    cont_key: [13],
+    text: `<div class = centerbox><p class = block-text>Let's start with a few practice trials. Remember, press the key 
+            corresponding to the <strong><u>font color</u></strong> of the word. </p><p class = block-text></p>
+            <p class = block-text>Press <strong>space</strong> to begin the practice.</p></div>`,
+    cont_key: [SPACE],
     timing_post_trial: 1000
 };
 
@@ -333,8 +336,8 @@ var start_test_block = {
     timing_response: 180000,
     text: `<div class = centerbox><p class = center-block-text>Great job! Now that you've had a bit of practice, you 
             can start the task. Remember to respond as <u><strong>quickly and accurately</strong></u> as you can.</p>
-            <p class = center-block-text>Press <strong>enter</strong> to begin.</p>`,
-    cont_key: [13],
+            <p class = center-block-text>Press <strong>space</strong> to begin.</p>`,
+    cont_key: [SPACE],
     timing_post_trial: 1000,
     on_finish: function () {
         exp_stage = 'test'
