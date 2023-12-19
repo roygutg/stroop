@@ -336,7 +336,7 @@ var start_test_block = {
     timing_response: 180000,
     text: `<div class = centerbox><p class = center-block-text>Great job! Now that you've had a bit of practice, you 
             can start the task. Remember to respond as <u><strong>quickly and accurately</strong></u> as you can.</p>
-            <p class = center-block-text>Please remain focused on the task. Attention checks will appear throughout.</p>
+            <p class = center-block-text>Please remain focused on the task, attention checks will appear throughout.</p>
             <p class = center-block-text>Press <strong>space</strong> to begin.</p></div>`,
     cont_key: [SPACE],
     timing_post_trial: 1000,
@@ -405,8 +405,8 @@ for (i = 0; i < exp_len; i++) {
         data: test_stims.data[i],
         key_answer: test_stims.key_answer[i],
         is_html: true,
-        correct_text: '<div class = fb_box><div class = center-text><font size = 20>correct</font></div></div>',
-        incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>WRONG!</font></div></div>',
+        correct_text: '<div class = fb_box><div class = center-text><font size = 20>CORRECT</font></div></div>',
+        incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>WRONG</font></div></div>',
         timeout_message: '<div class = fb_box><div class = center-text><font size = 20>GO FASTER!</font></div></div>',
         choices: choices,
         timing_response: 1500,
