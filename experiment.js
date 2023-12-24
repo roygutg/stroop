@@ -248,34 +248,32 @@ var feedback_instruct_block = {
 
 /// This ensures that the subject does not read through the instructions too quickly.  If they do it too quickly, then we will go over the loop again.
 var instructions_block = {
-    type: 'poldrack-instructions',
+    type: 'poldrack-text',
     data: {
-        trial_id: "instruction"
+        trial_id: "instruction1"
     },
-    pages: [
-        `<div class = centerbox style="height:80vh"><p class = block-text>In this task you will see color names
+    text: `<div class = centerbox style="height:80vh"><p class = block-text>In this task you will see color names
         (RED, BLUE, YELLOW) appear one at a time. The font of the words also will be colored. For example, you may see: 
         <span class = "large" style = "color:#f64747;font-weight:bold">RED</span>,
         <span class = "large" style = "color:#00bfff;font-weight:bold">BLUE</span> or
         <span class = "large" style = "color:#f64747;font-weight:bold">BLUE</span>.</p>
         <p class = block-text>Your task is to press the button corresponding to the <strong><u>font color</u></strong> of the word. Respond as <u><strong>quickly and accurately</strong></u> as possible.
         The response keys are as follows:</p>
-        ${response_keys}</div>`
-    ],
-    allow_keys: false,
-    show_clickable_nav: true,
+        ${response_keys}
+        <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
+    cont_key: [SPACE],
     timing_post_trial: 1000
 };
 var instructions_block2 = {
-    type: 'poldrack-instructions',
+    type: 'poldrack-text',
     data: {
         trial_id: "instruction2"
     },
-    pages: [
-        '<div class = centerbox style="height:80vh"><p class = block-text>Place your fingers on the keyboard however is most comfortable to you. A suggested placement is shown below.</p><p><img src="recommended_finger_placement.svg" alt="Recommended finger placement diagram"></p></div>'
-    ],
-    allow_keys: false,
-    show_clickable_nav: true,
+    text: `<div class = centerbox style="height:80vh"><p class = block-text>
+         Place your fingers on the keyboard however is most comfortable to you. A suggested placement is shown below.</p>
+         <p class="center-content"><img src="recommended_finger_placement.svg" alt="Recommended finger placement diagram"></p>
+         <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
+    cont_key: [SPACE],
     timing_post_trial: 1000
 };
 
@@ -283,12 +281,10 @@ var instruction_node = {
     timeline: [feedback_instruct_block, instructions_block, instructions_block2],
     /* This function defines stopping criteria */
     loop_function: function (data) {
-        for (i = 0; i < data.length; i++) {
-            if ((data[i].trial_type == 'poldrack-instructions') && (data[i].rt != -1)) {
-                rt = data[i].rt
-                sumInstructTime = sumInstructTime + rt
-            }
-        }
+        sumInstructTime = data[data.length - 2].rt + data[data.length - 1].rt
+        // the above line changed from considering every poldrack-instruct trial to only the last two trials, regardless
+        // of their type. hence it's not generic anymore. if the amount (or index) of the instruction screens changes,
+        // this has to change accordingly.
         if (sumInstructTime <= instructTimeThresh * 1000) {
             feedback_instruct_text =
                 `Don’t read through instructions too quickly. Please take your time and make sure you understand the 
