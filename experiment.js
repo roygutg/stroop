@@ -90,17 +90,16 @@ var sumInstructTime = 0 //ms
 var instructTimeThresh = 0 ///in seconds
 var credit_var = 0
 const SPACE = 32
+const NEUTRAL_STIM = "XXXX"
 
-/*
-/* High contrast, color-blind safe colors
-/*	RED = #f64747
-/*	BLUE = #00bfff
-/*	YELLOW = #F1F227
-*/
+// High contrast, color-blind safe colors
+const RED = "#f64747"
+const BLUE = "#00bfff"
+const YELLOW = "#F1F227"
 
 // task specific variables
 var congruent_stim = [{
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#f64747">RED</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${RED}">RED</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'congruent',
@@ -110,7 +109,7 @@ var congruent_stim = [{
     },
     key_answer: 82
 }, {
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#00bfff">BLUE</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${BLUE}">BLUE</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'congruent',
@@ -120,7 +119,7 @@ var congruent_stim = [{
     },
     key_answer: 66
 }, {
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#F1F227">YELLOW</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${YELLOW}">YELLOW</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'congruent',
@@ -131,8 +130,40 @@ var congruent_stim = [{
     key_answer: 89
 }];
 
+var neutral_stim = [{
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${RED}">${NEUTRAL_STIM}</div></div>`,
+    data: {
+        trial_id: 'stim',
+        condition: 'neutral',
+        stim_color: 'red',
+        stim_word: `${NEUTRAL_STIM}`,
+        correct_response: 82
+    },
+    key_answer: 82
+}, {
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${BLUE}">${NEUTRAL_STIM}</div></div>`,
+    data: {
+        trial_id: 'stim',
+        condition: 'neutral',
+        stim_color: 'blue',
+        stim_word: `${NEUTRAL_STIM}`,
+        correct_response: 66
+    },
+    key_answer: 66
+}, {
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${YELLOW}">${NEUTRAL_STIM}</div></div>`,
+    data: {
+        trial_id: 'stim',
+        condition: 'neutral',
+        stim_color: 'yellow',
+        stim_word: `${NEUTRAL_STIM}`,
+        correct_response: 89
+    },
+    key_answer: 89
+}];
+
 var incongruent_stim = [{
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#f64747">BLUE</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${RED}">BLUE</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'incongruent',
@@ -142,7 +173,7 @@ var incongruent_stim = [{
     },
     key_answer: 82
 }, {
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#f64747">YELLOW</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${RED}">YELLOW</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'incongruent',
@@ -152,7 +183,7 @@ var incongruent_stim = [{
     },
     key_answer: 82
 }, {
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#00bfff">RED</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${BLUE}">RED</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'incongruent',
@@ -162,7 +193,7 @@ var incongruent_stim = [{
     },
     key_answer: 66
 }, {
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#00bfff">YELLOW</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${BLUE}">YELLOW</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'incongruent',
@@ -172,7 +203,7 @@ var incongruent_stim = [{
     },
     key_answer: 66
 }, {
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#F1F227">RED</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${YELLOW}">RED</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'incongruent',
@@ -182,7 +213,7 @@ var incongruent_stim = [{
     },
     key_answer: 89
 }, {
-    stimulus: '<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:#F1F227">BLUE</div></div>',
+    stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${YELLOW}">BLUE</div></div>`,
     data: {
         trial_id: 'stim',
         condition: 'incongruent',
@@ -193,11 +224,11 @@ var incongruent_stim = [{
     key_answer: 89
 }];
 // High proportion congruency: twice as many congruent as incongruent
-var stims = [].concat(congruent_stim, congruent_stim, congruent_stim, congruent_stim, incongruent_stim)
-var practice_len = 18
-var practice_stims = jsPsych.randomization.repeat(stims, practice_len / stims.length, true)
-var exp_len = 72
-var test_stims = jsPsych.randomization.repeat(stims, exp_len / stims.length, true)
+var stims = [].concat(congruent_stim, congruent_stim, congruent_stim, congruent_stim, incongruent_stim, neutral_stim)
+var stim_repetitions_in_practice = 1
+var practice_stims = jsPsych.randomization.repeat(stims, stim_repetitions_in_practice, true)
+var stim_repetitions_in_test = 4
+var test_stims = jsPsych.randomization.repeat(stims, stim_repetitions_in_test, true)
 var choices = [66, 82, 89]
 var exp_stage = 'practice'
 
@@ -225,14 +256,14 @@ var attention_node = {
 /* define static blocks */
 var response_keys =
     `<ul class="list-text">
-    <li><span class = "large" style = "color:#f64747;font-weight:bold">WORD</span>: "R" key</li>
-    <li><span class = "large" style = "color:#00bfff;font-weight:bold">WORD</span>: "B" key</li>
-    <li><span class = "large" style = "color:#F1F227;font-weight:bold">WORD</span>: "Y" key</li></ul>`
+    <li><span class = "large" style = "color:${RED};font-weight:bold">WORD</span>: "R" key</li>
+    <li><span class = "large" style = "color:${BLUE};font-weight:bold">WORD</span>: "B" key</li>
+    <li><span class = "large" style = "color:${YELLOW};font-weight:bold">WORD</span>: "Y" key</li></ul>`
 
 
 var feedback_instruct_text =
     `<div class = centerbox><p class = block-text>
-    Hey there, you will now complete a color matching task. Focus will be important here, so before we begin please
+    You will now complete a color matching task. Focus will be important here, so before we begin please
     make sure you're ready for <u><strong>five minutes</strong></u> of uninterrupted game time!
     </p><p class = block-text>Press <strong>space</strong> to continue.</p></div>`
 var feedback_instruct_block = {
@@ -253,10 +284,12 @@ var instructions_block = {
         trial_id: "instruction1"
     },
     text: `<div class = centerbox style="height:80vh"><p class = block-text>In this task you will see color names
-        (RED, BLUE, YELLOW) appear one at a time. The font of the words also will be colored. For example, you may see: 
-        <span class = "large" style = "color:#f64747;font-weight:bold">RED</span>,
-        <span class = "large" style = "color:#00bfff;font-weight:bold">BLUE</span> or
-        <span class = "large" style = "color:#f64747;font-weight:bold">BLUE</span>.</p>
+        (RED, BLUE, YELLOW) or the string '${NEUTRAL_STIM}' appear one at a time. The font of the words also will be colored.
+        For example, you may see: 
+        <span class = "large" style = "color:${RED};font-weight:bold">RED</span>,
+        <span class = "large" style = "color:${BLUE};font-weight:bold">BLUE</span>,
+        <span class = "large" style = "color:${YELLOW};font-weight:bold">${NEUTRAL_STIM}</span> or
+        <span class = "large" style = "color:${RED};font-weight:bold">BLUE</span>.</p>
         <p class = block-text>Your task is to press the button corresponding to the <strong><u>font color</u></strong> of the word. Respond as <u><strong>quickly and accurately</strong></u> as possible.
         The response keys are as follows:</p>
         ${response_keys}
@@ -362,7 +395,7 @@ stroop_experiment = []
 stroop_experiment.push(instruction_node)
 stroop_experiment.push(start_practice_block)
 /* define test trials */
-for (i = 0; i < practice_len; i++) {
+for (i = 0; i < practice_stims.stimulus.length; i++) {
     stroop_experiment.push(fixation_block)
     var practice_block = {
         type: 'poldrack-categorize',
@@ -393,7 +426,7 @@ for (i = 0; i < practice_len; i++) {
 
 stroop_experiment.push(start_test_block)
 /* define test trials */
-for (i = 0; i < exp_len; i++) {
+for (i = 0; i < test_stims.stimulus.length; i++) {
     stroop_experiment.push(fixation_block)
     var test_block = {
         type: 'poldrack-categorize',
@@ -419,6 +452,6 @@ for (i = 0; i < exp_len; i++) {
         }
     }
     stroop_experiment.push(test_block)
-    if (i == exp_len / 2) stroop_experiment.push(attention_node)
+    if (i == test_stims.stimulus.length / 2) stroop_experiment.push(attention_node)
 }
 stroop_experiment.push(end_block)
