@@ -16,6 +16,11 @@ var sumInstructTime = 0 //ms
 var instructTimeThresh = 0 ///in seconds
 const SPACE = 32
 const NEUTRAL_STIM = "XXXX"
+const RED_KEY = "R".charCodeAt(0)
+const BLUE_KEY = "B".charCodeAt(0)
+const YELLOW_KEY = "Y".charCodeAt(0)
+const choices = [BLUE_KEY, RED_KEY, YELLOW_KEY]
+
 
 // High contrast, color-blind safe colors
 const RED = "#f64747"
@@ -30,9 +35,9 @@ var congruent_stim = [{
         condition: 'congruent',
         stim_color: 'red',
         stim_word: 'red',
-        correct_response: 82
+        correct_response: RED_KEY
     },
-    key_answer: 82
+    key_answer: RED_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${BLUE}">BLUE</div></div>`,
     data: {
@@ -40,9 +45,9 @@ var congruent_stim = [{
         condition: 'congruent',
         stim_color: 'blue',
         stim_word: 'blue',
-        correct_response: 66
+        correct_response: BLUE_KEY
     },
-    key_answer: 66
+    key_answer: BLUE_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${YELLOW}">YELLOW</div></div>`,
     data: {
@@ -50,9 +55,9 @@ var congruent_stim = [{
         condition: 'congruent',
         stim_color: 'yellow',
         stim_word: 'yellow',
-        correct_response: 89
+        correct_response: YELLOW_KEY
     },
-    key_answer: 89
+    key_answer: YELLOW_KEY
 }];
 
 var neutral_stim = [{
@@ -62,9 +67,9 @@ var neutral_stim = [{
         condition: 'neutral',
         stim_color: 'red',
         stim_word: `${NEUTRAL_STIM}`,
-        correct_response: 82
+        correct_response: RED_KEY
     },
-    key_answer: 82
+    key_answer: RED_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${BLUE}">${NEUTRAL_STIM}</div></div>`,
     data: {
@@ -72,9 +77,9 @@ var neutral_stim = [{
         condition: 'neutral',
         stim_color: 'blue',
         stim_word: `${NEUTRAL_STIM}`,
-        correct_response: 66
+        correct_response: BLUE_KEY
     },
-    key_answer: 66
+    key_answer: BLUE_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${YELLOW}">${NEUTRAL_STIM}</div></div>`,
     data: {
@@ -82,9 +87,9 @@ var neutral_stim = [{
         condition: 'neutral',
         stim_color: 'yellow',
         stim_word: `${NEUTRAL_STIM}`,
-        correct_response: 89
+        correct_response: YELLOW_KEY
     },
-    key_answer: 89
+    key_answer: YELLOW_KEY
 }];
 
 var incongruent_stim = [{
@@ -94,9 +99,9 @@ var incongruent_stim = [{
         condition: 'incongruent',
         stim_color: 'red',
         stim_word: 'blue',
-        correct_response: 82
+        correct_response: RED_KEY
     },
-    key_answer: 82
+    key_answer: RED_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${RED}">YELLOW</div></div>`,
     data: {
@@ -104,9 +109,9 @@ var incongruent_stim = [{
         condition: 'incongruent',
         stim_color: 'red',
         stim_word: 'yellow',
-        correct_response: 82
+        correct_response: RED_KEY
     },
-    key_answer: 82
+    key_answer: RED_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${BLUE}">RED</div></div>`,
     data: {
@@ -114,9 +119,9 @@ var incongruent_stim = [{
         condition: 'incongruent',
         stim_color: 'blue',
         stim_word: 'red',
-        correct_response: 66
+        correct_response: BLUE_KEY
     },
-    key_answer: 66
+    key_answer: BLUE_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${BLUE}">YELLOW</div></div>`,
     data: {
@@ -124,9 +129,9 @@ var incongruent_stim = [{
         condition: 'incongruent',
         stim_color: 'blue',
         stim_word: 'yellow',
-        correct_response: 66
+        correct_response: BLUE_KEY
     },
-    key_answer: 66
+    key_answer: BLUE_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${YELLOW}">RED</div></div>`,
     data: {
@@ -134,9 +139,9 @@ var incongruent_stim = [{
         condition: 'incongruent',
         stim_color: 'yellow',
         stim_word: 'red',
-        correct_response: 89
+        correct_response: YELLOW_KEY
     },
-    key_answer: 89
+    key_answer: YELLOW_KEY
 }, {
     stimulus: `<div class = centerbox><div class = stroop-stim style = "font-weight:bold;color:${YELLOW}">BLUE</div></div>`,
     data: {
@@ -144,18 +149,18 @@ var incongruent_stim = [{
         condition: 'incongruent',
         stim_color: 'yellow',
         stim_word: 'blue',
-        correct_response: 89
+        correct_response: YELLOW_KEY
     },
-    key_answer: 89
+    key_answer: YELLOW_KEY
 }];
-// High proportion congruency: twice as many congruent as incongruent
-var stims = [].concat(congruent_stim, congruent_stim, congruent_stim, congruent_stim, incongruent_stim, neutral_stim)
-var stim_repetitions_in_practice = 1
-var practice_stims = jsPsych.randomization.repeat(stims, stim_repetitions_in_practice, true)
-var stim_repetitions_in_test = 4
-var test_stims = jsPsych.randomization.repeat(stims, stim_repetitions_in_test, true)
-var choices = [66, 82, 89]
-var exp_stage = 'practice'
+// set practice stims
+var practice_stims_unpacked = [].concat(congruent_stim, congruent_stim, neutral_stim, neutral_stim, incongruent_stim)
+var practice_stims = jsPsych.randomization.repeat(practice_stims_unpacked, 1, true)
+
+// set test stims with high neutral proportion: ~70% neutral stims, ~15% congruent, ~15% incongruent
+var neutral_stims_repeated_for_test = jsPsych.randomization.repeat(neutral_stim, 10)
+var test_stims_unpacked = [].concat(congruent_stim, congruent_stim, incongruent_stim, neutral_stims_repeated_for_test)
+var test_stims = jsPsych.randomization.repeat(test_stims_unpacked, 1, true)
 
 /* ************************************ */
 /* Set up jsPsych blocks */
@@ -181,9 +186,9 @@ var attention_node = {
 /* define static blocks */
 var response_keys =
     `<ul class="list-text">
-    <li><span class = "large" style = "color:${RED};font-weight:bold">WORD</span>: "R" key</li>
-    <li><span class = "large" style = "color:${BLUE};font-weight:bold">WORD</span>: "B" key</li>
-    <li><span class = "large" style = "color:${YELLOW};font-weight:bold">WORD</span>: "Y" key</li></ul>`
+    <li><span class = "large" style = "color:${RED};font-weight:bold">WORD</span>: "${String.fromCharCode(RED_KEY)}" key</li>
+    <li><span class = "large" style = "color:${BLUE};font-weight:bold">WORD</span>: "${String.fromCharCode(BLUE_KEY)}" key</li>
+    <li><span class = "large" style = "color:${YELLOW};font-weight:bold">WORD</span>: "${String.fromCharCode(YELLOW_KEY)}" key</li></ul>`
 
 
 var feedback_instruct_text =
@@ -318,7 +323,8 @@ var fixation_block = {
 stroop_experiment = []
 stroop_experiment.push(instruction_node)
 stroop_experiment.push(start_practice_block)
-/* define test trials */
+/* define practice trials */
+var exp_stage = "practice"
 for (i = 0; i < practice_stims.stimulus.length; i++) {
     stroop_experiment.push(fixation_block)
     var practice_block = {
@@ -350,32 +356,38 @@ for (i = 0; i < practice_stims.stimulus.length; i++) {
 
 stroop_experiment.push(start_test_block)
 /* define test trials */
-for (i = 0; i < test_stims.stimulus.length; i++) {
-    stroop_experiment.push(fixation_block)
-    var test_block = {
-        type: 'poldrack-categorize',
-        stimulus: test_stims.stimulus[i],
-        data: test_stims.data[i],
-        key_answer: test_stims.key_answer[i],
-        is_html: true,
-        correct_text: '<div class = fb_box><div class = center-text><font size = 20>CORRECT</font></div></div>',
-        incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>WRONG</font></div></div>',
-        timeout_message: '<div class = fb_box><div class = center-text><font size = 20>GO FASTER!</font></div></div>',
-        choices: choices,
-        timing_response: 1500,
-        timing_stim: -1,
-        timing_feedback_duration: 500,
-        show_stim_with_feedback: true,
-        response_ends_trial: true,
-        timing_post_trial: 250,
-        on_finish: function () {
-            jsPsych.data.addDataToLastTrial({
-                trial_id: 'stim',
-                exp_stage: 'test'
-            })
+var n_blocks = 8 // so that each condition has ~50 trials
+n_blocks = 1 // for testing. TODO: delete this line when done testing
+for (block = 1; block <= n_blocks; block++) {
+    test_stims = jsPsych.randomization.repeat(test_stims_unpacked, 1, true)
+    for (i = 0; i < test_stims.stimulus.length; i++) {
+        stroop_experiment.push(fixation_block)
+        var test_block = {
+            type: 'poldrack-categorize',
+            stimulus: test_stims.stimulus[i],
+            data: test_stims.data[i],
+            key_answer: test_stims.key_answer[i],
+            is_html: true,
+            correct_text: '<div class = fb_box><div class = center-text><font size = 20>CORRECT</font></div></div>',
+            incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>WRONG</font></div></div>',
+            timeout_message: '<div class = fb_box><div class = center-text><font size = 20>GO FASTER!</font></div></div>',
+            choices: choices,
+            timing_response: 1500,
+            timing_stim: -1,
+            timing_feedback_duration: 500,
+            show_stim_with_feedback: true,
+            response_ends_trial: true,
+            timing_post_trial: 250,
+            on_finish: function () {
+                jsPsych.data.addDataToLastTrial({
+                    trial_id: 'stim',
+                    exp_stage: 'test',
+                    block_num: block
+                })
+            }
         }
+        stroop_experiment.push(test_block)
     }
-    stroop_experiment.push(test_block)
-    if (i == test_stims.stimulus.length / 2) stroop_experiment.push(attention_node)
+    stroop_experiment.push(attention_node)
 }
 stroop_experiment.push(end_block)
