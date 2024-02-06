@@ -415,7 +415,7 @@ for (block = 1; block <= n_blocks; block++) {
             }
         }
         stroop_experiment.push(test_block)
-        if (i >= N_MISTAKES_IN_A_ROW_FOR_REMINDER) stroop_experiment.push(instructions_reminder_node)
+        if (i >= N_MISTAKES_IN_A_ROW_FOR_REMINDER - 1) stroop_experiment.push(instructions_reminder_node)
     }
     stroop_experiment.push(attention_node)
 }
