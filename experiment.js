@@ -2,79 +2,6 @@
 /* Define helper functions */
 
 /* ************************************ */
-function assessPerformance() {
-    var experiment_data = jsPsych.data.getTrialsOfType('poldrack-categorize')
-    var missed_count = 0
-    var trial_count = 0
-    var correct_count = 0
-    var rt_array = []
-    var rt = 0
-    //record choices participants made
-    var choice_counts = {}
-    choice_counts[-1] = 0
-    for (var k = 0; k < choices.length; k++) {
-        choice_counts[choices[k]] = 0
-    }
-    for (var i = 0; i < experiment_data.length; i++) {
-        if (experiment_data[i].possible_responses != 'none') {
-            trial_count += 1
-            rt = experiment_data[i].rt
-            key = experiment_data[i].key_press
-            correct = experiment_data[i].correct
-            choice_counts[key] += 1
-            if (correct) correct_count += 1
-            if (rt == -1) {
-                missed_count += 1
-            } else {
-                rt_array.push(rt)
-            }
-        }
-    }
-    //calculate average rt
-    var avg_rt = -1
-    if (rt_array.length !== 0) {
-        avg_rt = math.median(rt_array)
-    }
-    //calculate whether response distribution is okay
-    var responses_ok = true
-    Object.keys(choice_counts).forEach(function (key, index) {
-        if (choice_counts[key] > trial_count * 0.85) {
-            responses_ok = false
-        }
-    })
-    var missed_pct = missed_count / trial_count
-    var accuracy = correct_count / trial_count
-    var attn_correct_pct = evalAttentionChecks()
-
-    credit_var = (missed_pct < 0.4 && avg_rt > 200 && responses_ok && accuracy > 0.6)
-    jsPsych.data.addDataToLastTrial({"credit_var": credit_var})
-
-    results = {
-        missed_pct: missed_pct,
-        accuracy: accuracy,
-        attn_correct_pct: attn_correct_pct,
-        credit_var: credit_var
-    };
-
-    return (results);
-}
-
-
-function evalAttentionChecks() {
-    var check_percent = 1
-    if (run_attention_checks) {
-        var attention_check_trials = jsPsych.data.getTrialsOfType('attention-check')
-        var checks_passed = 0
-        for (var i = 0; i < attention_check_trials.length; i++) {
-            if (attention_check_trials[i].correct === true) {
-                checks_passed += 1
-            }
-        }
-        check_percent = checks_passed / attention_check_trials.length
-    }
-    return check_percent
-}
-
 var getInstructFeedback = function () {
     return '<div class = centerbox><p class = center-block-text>' + feedback_instruct_text +
         '</p></div>'
@@ -85,10 +12,8 @@ var getInstructFeedback = function () {
 /* ************************************ */
 // generic task variables
 var run_attention_checks = true
-var attention_check_thresh = 0.45
 var sumInstructTime = 0 //ms
 var instructTimeThresh = 0 ///in seconds
-var credit_var = 0
 const SPACE = 32
 const NEUTRAL_STIM = "XXXX"
 
@@ -340,8 +265,7 @@ var end_block = {
     text: `<div class = centerbox><p class = center-block-text>Thanks for completing the task.</p>
             <p class = center-block-text>Press <strong>space</strong> to continue.</p></div>`,
     cont_key: [SPACE],
-    timing_post_trial: 0,
-    on_finish: assessPerformance
+    timing_post_trial: 0
 };
 
 var start_practice_block = {
