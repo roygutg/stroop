@@ -3,8 +3,7 @@
 
 /* ************************************ */
 var getInstructFeedback = function () {
-    return '<div class = centerbox><p class = center-block-text>' + feedback_instruct_text +
-        '</p></div>'
+    return `<div class = centerbox><p class = center-block-text>${feedback_instruct_text}</p></div>`
 }
 
 /* ************************************ */
@@ -16,11 +15,11 @@ var sumInstructTime = 0 //ms
 var instructTimeThresh = 0 ///in seconds
 const SPACE = 32
 const NEUTRAL_STIM = "XXXX"
-const RED_KEY = "R".charCodeAt(0)
-const BLUE_KEY = "B".charCodeAt(0)
-const YELLOW_KEY = "Y".charCodeAt(0)
+const RED_KEY = "I".charCodeAt(0)
+const BLUE_KEY = "O".charCodeAt(0)
+const YELLOW_KEY = "P".charCodeAt(0)
 const choices = [BLUE_KEY, RED_KEY, YELLOW_KEY]
-
+const N_MISTAKES_IN_A_ROW_FOR_REMINDER = 3
 
 // High contrast, color-blind safe colors
 const RED = "#f64747"
@@ -220,9 +219,11 @@ var instructions_block = {
         <span class = "large" style = "color:${BLUE};font-weight:bold">BLUE</span>,
         <span class = "large" style = "color:${YELLOW};font-weight:bold">${NEUTRAL_STIM}</span> or
         <span class = "large" style = "color:${RED};font-weight:bold">BLUE</span>.</p>
-        <p class = block-text>Your task is to press the button corresponding to the <strong><u>font color</u></strong> of the word. Respond as <u><strong>quickly and accurately</strong></u> as possible.
+        <p class = block-text>Your task is to press the key corresponding to the <strong><u>font color</u></strong>,
+        as <u><strong>quickly and accurately</strong></u> as possible.
         The response keys are as follows:</p>
         ${response_keys}
+        <p class="center-content"><img src="keyboard.svg" alt="Keyboard diagram"></p>
         <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
     cont_key: [SPACE],
     timing_post_trial: 1000
@@ -233,12 +234,34 @@ var instructions_block2 = {
         trial_id: "instruction2"
     },
     text: `<div class = centerbox style="height:80vh"><p class = block-text>
-         Place your fingers on the keyboard however is most comfortable to you. A suggested placement is shown below.</p>
-         <p class="center-content"><img src="recommended_finger_placement.svg" alt="Recommended finger placement diagram"></p>
+         Place your fingers on the keyboard to comfortably access the response keys. Please use only one hand.</p>
+         <p class="center-content"><img src="keyboard.svg" alt="Keyboard diagram"></p>
          <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
     cont_key: [SPACE],
     timing_post_trial: 1000
 };
+
+var instructions_reminder_block = {
+    type: 'poldrack-text',
+    data: {
+        trial_id: "instruction_reminder"
+    },
+    text: `<div class = centerbox style="height:80vh"><p class = block-text>
+         You've made three mistakes in a row. Remember, your job is to respond to the <u><strong>font color</strong></u> as
+         <u><strong>quickly and accurately</strong></u> as you can, using these keys:</p>
+         <p class="center-content"><img src="response_keys.svg" alt="" width="270" height="90"></p>
+         <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
+    cont_key: [SPACE],
+    timing_post_trial: 1000,
+    conditional_function: function () {
+        last_trials = jsPsych.data.getTrialsOfType('poldrack-categorize').slice(-N_MISTAKES_IN_A_ROW_FOR_REMINDER);
+        for (i = 0; i < N_MISTAKES_IN_A_ROW_FOR_REMINDER; i++) {
+            if (last_trials[i].correct) return false
+        }
+        return true
+    }
+};
+
 
 var instruction_node = {
     timeline: [feedback_instruct_block, instructions_block, instructions_block2],
@@ -280,7 +303,9 @@ var start_practice_block = {
     },
     timing_response: 180000,
     text: `<div class = centerbox><p class = block-text>Let's start with a few practice trials. Remember, press the key 
-            corresponding to the <strong><u>font color</u></strong> of the word. </p><p class = block-text></p>
+            corresponding to the <strong><u>font color</u></strong> of the word. </p>
+            <p class = block-text>For the practice session, the matching between color and response key will appear below the word.</p>
+            <p class = block-text></p>
             <p class = block-text>Press <strong>space</strong> to begin the practice.</p></div>`,
     cont_key: [SPACE],
     timing_post_trial: 1000
@@ -293,7 +318,8 @@ var start_test_block = {
     },
     timing_response: 180000,
     text: `<div class = centerbox><p class = center-block-text>Great job! Now that you've had a bit of practice, you 
-            can start the task. Remember to respond as <u><strong>quickly and accurately</strong></u> as you can.</p>
+            can start the task. From now on, the reminder of the response keys will not appear below the word.</p>
+            <p class = center-block-text>Remember to respond as <u><strong>quickly and accurately</strong></u> as you can.</p>
             <p class = center-block-text>Please remain focused on the task, attention checks will appear throughout.</p>
             <p class = center-block-text>Press <strong>space</strong> to begin.</p></div>`,
     cont_key: [SPACE],
@@ -330,7 +356,7 @@ for (i = 0; i < practice_stims.stimulus.length; i++) {
     var practice_block = {
         type: 'poldrack-categorize',
         practice_trial: i,
-        stimulus: practice_stims.stimulus[i],
+        stimulus: practice_stims.stimulus[i] + `<div class=response_keys_box><img src="response_keys.svg" alt=""></div>`,
         data: practice_stims.data[i],
         key_answer: practice_stims.key_answer[i],
         is_html: true,
@@ -368,7 +394,7 @@ for (block = 1; block <= n_blocks; block++) {
             data: test_stims.data[i],
             key_answer: test_stims.key_answer[i],
             is_html: true,
-            correct_text: '<div class = fb_box><div class = center-text><font size = 20>CORRECT</font></div></div>',
+            correct_text: "",
             incorrect_text: '<div class = fb_box><div class = center-text><font size = 20>WRONG</font></div></div>',
             timeout_message: '<div class = fb_box><div class = center-text><font size = 20>GO FASTER!</font></div></div>',
             choices: choices,
@@ -387,6 +413,7 @@ for (block = 1; block <= n_blocks; block++) {
             }
         }
         stroop_experiment.push(test_block)
+        if (i >= N_MISTAKES_IN_A_ROW_FOR_REMINDER) stroop_experiment.push(instructions_reminder_block)
     }
     stroop_experiment.push(attention_node)
 }
