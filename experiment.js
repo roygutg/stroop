@@ -241,18 +241,20 @@ var instructions_block2 = {
     timing_post_trial: 1000
 };
 
-var instructions_reminder_block = {
-    type: 'poldrack-text',
-    data: {
-        trial_id: "instruction_reminder"
-    },
-    text: `<div class = centerbox style="height:80vh"><p class = block-text>
+var instructions_reminder_node = {
+    timeline: [{
+        type: 'poldrack-text',
+        data: {
+            trial_id: "instruction_reminder"
+        },
+        text: `<div class = centerbox style="height:80vh"><p class = block-text>
          You've made three mistakes in a row. Remember, your job is to respond to the <u><strong>font color</strong></u> as
          <u><strong>quickly and accurately</strong></u> as you can, using these keys:</p>
          <p class="center-content"><img src="response_keys.svg" alt="" width="270" height="90"></p>
          <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
-    cont_key: [SPACE],
-    timing_post_trial: 1000,
+        cont_key: [SPACE],
+        timing_post_trial: 1000
+    }],
     conditional_function: function () {
         last_trials = jsPsych.data.getTrialsOfType('poldrack-categorize').slice(-N_MISTAKES_IN_A_ROW_FOR_REMINDER);
         for (i = 0; i < N_MISTAKES_IN_A_ROW_FOR_REMINDER; i++) {
@@ -413,7 +415,7 @@ for (block = 1; block <= n_blocks; block++) {
             }
         }
         stroop_experiment.push(test_block)
-        if (i >= N_MISTAKES_IN_A_ROW_FOR_REMINDER) stroop_experiment.push(instructions_reminder_block)
+        if (i >= N_MISTAKES_IN_A_ROW_FOR_REMINDER) stroop_experiment.push(instructions_reminder_node)
     }
     stroop_experiment.push(attention_node)
 }
