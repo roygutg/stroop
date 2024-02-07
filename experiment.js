@@ -192,7 +192,7 @@ var response_keys =
 var feedback_instruct_text =
     `<div class = centerbox><p class = block-text>
     You will now complete a colour matching task. Focus will be important here, so before we begin please
-    make sure you're ready for <u><strong>five minutes</strong></u> of uninterrupted game time!
+    make sure you're ready for <u><strong>15 minutes</strong></u> of uninterrupted time!
     </p><p class = block-text>Press <strong>space</strong> to continue.</p></div>`
 var feedback_instruct_block = {
     type: 'poldrack-text',
