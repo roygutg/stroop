@@ -191,7 +191,7 @@ var response_keys =
 
 var feedback_instruct_text =
     `<div class = centerbox><p class = block-text>
-    You will now complete a color matching task. Focus will be important here, so before we begin please
+    You will now complete a colour matching task. Focus will be important here, so before we begin please
     make sure you're ready for <u><strong>five minutes</strong></u> of uninterrupted game time!
     </p><p class = block-text>Press <strong>space</strong> to continue.</p></div>`
 var feedback_instruct_block = {
@@ -211,14 +211,14 @@ var instructions_block = {
     data: {
         trial_id: "instruction1"
     },
-    text: `<div class = centerbox style="height:80vh"><p class = block-text>In this task you will see color names
-        (RED, BLUE, YELLOW) or the string '${NEUTRAL_STIM}' appear one at a time. The font of the words also will be colored.
+    text: `<div class = centerbox style="height:80vh"><p class = block-text>In this task you will see colour names
+        (RED, BLUE, YELLOW) or the string '${NEUTRAL_STIM}' appear one at a time. Words will appear in different font colours.
         For example, you may see: 
         <span class = "large" style = "color:${RED};font-weight:bold">RED</span>,
         <span class = "large" style = "color:${BLUE};font-weight:bold">BLUE</span>,
         <span class = "large" style = "color:${YELLOW};font-weight:bold">${NEUTRAL_STIM}</span> or
         <span class = "large" style = "color:${RED};font-weight:bold">BLUE</span>.</p>
-        <p class = block-text>Your task is to press the key corresponding to the <strong><u>font color</u></strong>,
+        <p class = block-text>Your task is to press the key corresponding to the <strong><u>font colour</u></strong>,
         as <u><strong>quickly and accurately</strong></u> as possible.
         The response keys are as follows:</p>
         ${response_keys}
@@ -247,7 +247,7 @@ var instructions_reminder_node = {
             trial_id: "instruction_reminder"
         },
         text: `<div class = centerbox style="height:80vh"><p class = block-text>
-         You've made three or more mistakes in a row. Remember, your job is to respond to the <u><strong>font color</strong></u>
+         You've made three or more mistakes in a row. Remember, your job is to respond to the <u><strong>font colour</strong></u>
          as <u><strong>quickly and accurately</strong></u> as you can, using these keys:</p>
          <p class="center-content"><img src="response_keys.svg" alt="" width="270" height="90"></p>
          <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
@@ -304,8 +304,8 @@ var start_practice_block = {
     },
     timing_response: 180000,
     text: `<div class = centerbox><p class = block-text>Let's start with a few practice trials. Remember, press the key 
-            corresponding to the <strong><u>font color</u></strong> of the word. </p>
-            <p class = block-text>For the practice session, the matching between color and response key will appear below the word.</p>
+            corresponding to the <strong><u>font colour</u></strong> of the word. </p>
+            <p class = block-text>For the practice session, the matching between colour and response key will appear below the word.</p>
             <p class = block-text></p>
             <p class = block-text>Press <strong>space</strong> to begin the practice.</p></div>`,
     cont_key: [SPACE],
@@ -319,7 +319,7 @@ var start_test_block = {
     },
     timing_response: 180000,
     text: `<div class = centerbox><p class = center-block-text>Great job! Now that you've had a bit of practice, you 
-            can start the task. From now on, the reminder of the response keys will not appear below the word.</p>
+            can start the task. The response keys hint will not appear below the word anymore.</p>
             <p class = center-block-text>Remember to respond as <u><strong>quickly and accurately</strong></u> as you can.</p>
             <p class = center-block-text>Please remain focused on the task, attention checks will appear throughout.</p>
             <p class = center-block-text>Press <strong>space</strong> to begin.</p></div>`,
