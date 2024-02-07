@@ -11,7 +11,6 @@ var getInstructFeedback = function () {
 /* ************************************ */
 // generic task variables
 var run_attention_checks = true
-var sumInstructTime = 0 //ms
 var instructTimeThresh = 0 ///in seconds
 const SPACE = 32
 const NEUTRAL_STIM = "XXXX"
@@ -157,7 +156,7 @@ var practice_stims_unpacked = [].concat(congruent_stim, congruent_stim, neutral_
 var practice_stims = jsPsych.randomization.repeat(practice_stims_unpacked, 1, true)
 
 // set test stims with high neutral proportion: ~70% neutral stims, ~15% congruent, ~15% incongruent
-var neutral_stims_repeated_for_test = jsPsych.randomization.repeat(neutral_stim, 10)
+var neutral_stims_repeated_for_test = jsPsych.randomization.repeat(neutral_stim, 9)
 var test_stims_unpacked = [].concat(congruent_stim, congruent_stim, incongruent_stim, neutral_stims_repeated_for_test)
 var test_stims = jsPsych.randomization.repeat(test_stims_unpacked, 1, true)
 
@@ -223,7 +222,6 @@ var instructions_block = {
         as <u><strong>quickly and accurately</strong></u> as possible.
         The response keys are as follows:</p>
         ${response_keys}
-        <p class="center-content"><img src="keyboard.svg" alt="Keyboard diagram"></p>
         <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
     cont_key: [SPACE],
     timing_post_trial: 1000
@@ -234,7 +232,8 @@ var instructions_block2 = {
         trial_id: "instruction2"
     },
     text: `<div class = centerbox style="height:80vh"><p class = block-text>
-         Place your fingers on the keyboard to comfortably access the response keys. Please use only one hand.</p>
+         Place your fingers on the keyboard to comfortably access the response keys.</p>
+         <p class = block-text>Please use only <strong>one hand</strong>.</p>
          <p class="center-content"><img src="keyboard.svg" alt="Keyboard diagram"></p>
          <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
     cont_key: [SPACE],
@@ -248,8 +247,8 @@ var instructions_reminder_node = {
             trial_id: "instruction_reminder"
         },
         text: `<div class = centerbox style="height:80vh"><p class = block-text>
-         You've made three mistakes in a row. Remember, your job is to respond to the <u><strong>font color</strong></u> as
-         <u><strong>quickly and accurately</strong></u> as you can, using these keys:</p>
+         You've made three or more mistakes in a row. Remember, your job is to respond to the <u><strong>font color</strong></u>
+         as <u><strong>quickly and accurately</strong></u> as you can, using these keys:</p>
          <p class="center-content"><img src="response_keys.svg" alt="" width="270" height="90"></p>
          <p class = block-text>Press <strong>space</strong> to continue.</p></div>`,
         cont_key: [SPACE],
@@ -264,7 +263,7 @@ var instructions_reminder_node = {
     }
 };
 
-
+var sumInstructTime = 0 //ms
 var instruction_node = {
     timeline: [feedback_instruct_block, instructions_block, instructions_block2],
     /* This function defines stopping criteria */
@@ -275,10 +274,10 @@ var instruction_node = {
         // this has to change accordingly.
         if (sumInstructTime <= instructTimeThresh * 1000) {
             feedback_instruct_text =
-                `Don’t read through instructions too quickly. Please take your time and make sure you understand the 
+                `Don't read through instructions too quickly. Please take your time and make sure you understand the 
                 instructions. Press <strong>space</strong> to continue.`
             return true
-        } else if (sumInstructTime > instructTimeThresh * 1000) {
+        } else {
             feedback_instruct_text = 'Done with instructions. Press <strong>space</strong> to continue.'
             return false
         }
@@ -384,8 +383,7 @@ for (i = 0; i < practice_stims.stimulus.length; i++) {
 
 stroop_experiment.push(start_test_block)
 /* define test trials */
-var n_blocks = 8 // so that each condition has ~50 trials
-n_blocks = 1 // for testing. TODO: delete this line when done testing
+var n_blocks = 7 // so that each condition has >40 trials
 for (block = 1; block <= n_blocks; block++) {
     test_stims = jsPsych.randomization.repeat(test_stims_unpacked, 1, true)
     for (i = 0; i < test_stims.stimulus.length; i++) {
