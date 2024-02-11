@@ -169,7 +169,6 @@ var attention_check_block = {
     data: {
         trial_id: "attention_check"
     },
-    timing_response: 7500,
     response_ends_trial: true,
     timing_post_trial: 1000
 }

@@ -11,11 +11,11 @@ jsPsych.plugins["attention-check"] = (function () {
     }
 
     var questions = [
-        {'Q': '<p>ATTENTION CHECK</p> <p>Press the Spacebar</p>', 'A': 32},
-        {'Q': '<p>ATTENTION CHECK</p> <p>Press the "8" key</p>', 'A': 56},
-        {'Q': '<p>ATTENTION CHECK</p> <p>Press the "T" key</p>', 'A': 84},
-        {'Q': '<p>ATTENTION CHECK</p> <p>Press the Left Arrow</p>', 'A': 37},
-        {'Q': '<p>ATTENTION CHECK</p> <p>Press the Right Arrow</p>', 'A': 39},
+        {'Q': '<p>ATTENTION CHECK</p> <p>Press the Spacebar</p>', 'A': " ".charCodeAt(0)},
+        {'Q': '<p>ATTENTION CHECK</p> <p>Press the "8" key</p>', 'A': "8".charCodeAt(0)},
+        {'Q': '<p>ATTENTION CHECK</p> <p>Press the "T" key</p>', 'A': "T".charCodeAt(0)},
+        {'Q': '<p>ATTENTION CHECK</p> <p>Press the "D" key</p>', 'A': "D".charCodeAt(0)},
+        {'Q': '<p>ATTENTION CHECK</p> <p>Press the "Q" key</p>', 'A': "Q".charCodeAt(0)},
     ]
 
     var plugin = {};
