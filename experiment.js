@@ -407,7 +407,6 @@ for (block = 1; block <= n_blocks; block++) {
                 jsPsych.data.addDataToLastTrial({
                     trial_id: 'stim',
                     exp_stage: 'test',
-                    block_num: block
                 })
             }
         }
